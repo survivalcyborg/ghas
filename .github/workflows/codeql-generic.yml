@@ -1,0 +1,50 @@
+name: CodeQL-generic
+
+on:
+  push:
+    branches: [ "main" ] # Needed for testing within codeql branch
+  workflow_call: # Needed for outside call from another workflow.
+    inputs:
+      languages:
+        required: true
+        type: array
+      build-modes:
+        required: true
+        type: array
+      java-build:
+        required: false
+        type: string
+        default: ""
+      csharp-build:
+        required: false
+        type: string
+        default: ""
+  schedule:
+    - cron: '0 20 25 * *'
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ matrix.language == 'swift' && 120 || 360 }}
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ toJson(inputs.languages) }} | fromJson | map((lang, index) => { language: lang, build-mode: inputs['build-modes'][index] })
+
+    steps:
+      - name: Analyze Code
+        run: echo "Analyzing ${{ matrix.language }} in ${{ matrix.build-mode }} mode"
+
+      - if: matrix.build-mode == 'manual' && matrix.language == 'java'
+        run: |
+          echo "${{ inputs['java-build'] }}"
+
+      - if: matrix.build-mode == 'manual' && matrix.language == 'csharp'
+        run: |
+          echo "${{ inputs['csharp-build'] }}"
