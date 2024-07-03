@@ -1,0 +1,16 @@
+name: CodeQL-Caller
+
+on:
+  pull_request:
+    branches: 
+      - main
+  push:
+    branches: 
+      - main
+
+jobs:
+  call-codeql:
+    uses: ./.github/workflows/codeql-generic.yml # Path to the CodeQL workflow
+    with:
+      languages: '[ "python" ]'
+      build-modes: '[ "autobuild" ]'
