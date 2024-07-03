@@ -35,7 +35,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ toJson(inputs.languages) }} | fromJson | map((lang, index) => { language: lang, build-mode: inputs['build-modes'][index] })
+        include: ${{ fromJson(inputs.matrix).include }}
 
     steps:
       - name: Analyze Code
