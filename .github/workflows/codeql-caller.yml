@@ -10,7 +10,24 @@ on:
 
 jobs:
   call-codeql:
-    uses: ./.github/workflows/codeql-generic.yml # Path to the CodeQL workflow
+    strategy:
+      matrix:
+          language: [ "python" ]
+          build-mode: [ "autobuild" ]
+#         runner_tags: ['test']
+#         include:
+#           - language: "java-kotlin"
+#             build-graddle: "./gradlew assemble"
+#             build-maven: "./mvnw clean isntall"
+#           - language: "csharp"
+#             build-csharp: "./Myfile.sln"
+    uses: ./.github/workflows/codeql-generic.yml
     with:
-      languages: '[ "python" ]'
-      build-modes: '[ "autobuild" ]'
+      language: ${{matrix.language}}
+      build-mode: ${{matrix.build-mode}}
+      protected_branches: ${{matrix.protected_branches}}
+#     runner_tags: ${{matrix.runner_tags}}
+#     build-graddle: ${{matrix.build-graddle}}
+#     build-maven: $ {{matrix.build-maven}}
+#     build-csharp: $ {{matrix.build-csharp}}
+    

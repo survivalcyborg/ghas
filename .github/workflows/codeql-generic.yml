@@ -1,32 +1,36 @@
-name: CodeQL-generic
+name: codeql-generic
 
 on:
-  push:
-    branches: [ "main" ] # Needed for testing within codeql branch
   workflow_call: # Needed for outside call from another workflow.
     inputs:
-      languages:
+      protected_branches:
         required: true
-        type: array
-      build-modes:
+        type: string
+      language:
         required: true
-        type: array
-      java-build:
+        type: string
+      build-mode:
+        required: true
+        type: string
+      build_graddle:
         required: false
         type: string
-        default: ""
-      csharp-build:
+      build_maven:
+        required: false
+        type: string        
+      build_csharp:
         required: false
         type: string
-        default: ""
-  schedule:
-    - cron: '0 20 25 * *'
+  push:
+    branches: [ '${{ inputs.protected_branches }}' ]
+  pull_request:
+    branches: [ '${{ inputs.protected_branches }}' ]
 
 jobs:
   analyze:
-    name: Analyze (${{ matrix.language }})
+    name: Analyze (${{ inputs.language }})
     runs-on: ubuntu-latest
-    timeout-minutes: ${{ matrix.language == 'swift' && 120 || 360 }}
+    timeout-minutes: 120
     permissions:
       security-events: write
       actions: read
@@ -34,17 +38,26 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix:
-        include: ${{ fromJson(inputs.matrix).include }}
 
     steps:
-      - name: Analyze Code
-        run: echo "Analyzing ${{ matrix.language }} in ${{ matrix.build-mode }} mode"
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - if: matrix.build-mode == 'manual' && matrix.language == 'java'
-        run: |
-          echo "${{ inputs['java-build'] }}"
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ inputs.language }}
+        build-mode: ${{ inputs.build-mode }}
 
-      - if: matrix.build-mode == 'manual' && matrix.language == 'csharp'
-        run: |
-          echo "${{ inputs['csharp-build'] }}"
+    - if: inputs.build-mode == 'manual' && inputs.language == 'java'
+      run: |
+        ${{ inputs.build-graddle }}
+        ${{ inputs.build-maven }}
+
+    - if: inputs.build-mode == 'manual' && inputs.language == 'csharp'
+      run: |
+        ${{ inputs.build-csharp }}
+    - name: Perform CodeQL Analysis
+      uses: github/coddeql-action/analyze@v3
+      with:
+        category: "/language:${{ inputs.language }}"
