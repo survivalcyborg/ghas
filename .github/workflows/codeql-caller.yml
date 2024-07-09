@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   call-codeql:
     strategy:
@@ -19,14 +19,14 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2 
 
     - name: Call codeql-generic workflow
-      uses: ./home/runner/work/ghas/ghas/.github/workflows/codeql-generic.yml
+      uses: ./.github/workflows/codeql-generic.yml
       with:
         protected_branches: "main"
         language: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-#        build-graddle: ${{ matrix.build-graddle }}  # Specify these based on your needs
-#        build-maven: ${{ matrix.build-maven }}
-#        build-csharp: ${{ matrix.build-csharp }}
+#      build-graddle: ${{ matrix.build-graddle }}  # Specify these based on your needs
+#      build-maven: ${{ matrix.build-maven }}
+#      build-csharp: ${{ matrix.build-csharp }}
