@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         language: [ "python" ]  # Add other languages as needed
-        build-mode: [ "autobuild" ]  # Modify as per your requirements
+        build-mode: [ "none" ]  # Modify as per your requirements
     runs-on: ubuntu-latest
 
     steps:
