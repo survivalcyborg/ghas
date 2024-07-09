@@ -1,7 +1,7 @@
 name: codeql-generic
 
 on:
-  workflow_call: # Needed for outside call from another workflow.
+  workflow_call:
     inputs:
       protected_branches:
         required: true
@@ -12,23 +12,19 @@ on:
       build-mode:
         required: true
         type: string
-      build_graddle:
+      build-graddle:
         required: false
         type: string
-      build_maven:
-        required: false
-        type: string        
-      build_csharp:
+      build-maven:
         required: false
         type: string
-  push:
-    branches: ${{ github.event.inputs.protected_branches }}
-  pull_request:
-    branches: ${{ github.event.inputs.protected_branches }}
+      build-csharp:
+        required: false
+        type: string
 
 jobs:
   analyze:
-    name: Analyze (${{ github.event.inputs.language }})
+    name: Analyze (${{ inputs.language }})
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:
@@ -46,18 +42,19 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: ${{ github.event.inputs.language }}
-        build-mode: ${{ github.event.inputs.build-mode }}
+        languages: ${{ inputs.language }}
+        build-mode: ${{ inputs.build-mode }}
 
-    - if: github.event.inputs.build-mode == 'manual' && github.event.inputs.language == 'java'
+    - if: ${{ inputs.build-mode == 'manual' && inputs.language == 'java' }}
       run: |
-        ${{ github.event.inputs.build-graddle }}
-        ${{ github.event.inputs.build-maven }}
+        ${{ inputs.build-graddle }}
+        ${{ inputs.build-maven }}
 
-    - if: github.event.inputs.build-mode == 'manual' && github.event.inputs.language == 'csharp'
+    - if: ${{ inputs.build-mode == 'manual' && inputs.language == 'csharp' }}
       run: |
-        ${{ github.event.inputs.build-csharp }}
+        ${{ inputs.build-csharp }}
+
     - name: Perform CodeQL Analysis
-      uses: github/coddeql-action/analyze@v3
+      uses: github/codeql-action/analyze@v3
       with:
-        category: "/language:${{ github.event.inputs.language }}"
+        category: "/language:${{ inputs.language }}"
