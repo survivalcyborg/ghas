@@ -48,6 +48,7 @@ runs:
         if [ -n "${{ inputs.build-maven }}" ]; then
           ${{ inputs.build-maven }}
         fi
+      shell: bash
 
     - name: Build for C#
       if: ${{ inputs.build-mode == 'manual' && inputs.language == 'csharp' }}
@@ -55,6 +56,7 @@ runs:
         if [ -n "${{ inputs.build-csharp }}" ]; then
           ${{ inputs.build-csharp }}
         fi
+      shell: bash
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
