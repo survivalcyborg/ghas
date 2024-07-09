@@ -2,39 +2,33 @@ name: CodeQL-Caller
 
 on:
   pull_request:
-    branches: 
+    branches:
       - main
+      - survivalcyborg*
   push:
-    branches: 
+    branches:
       - main
+      - survivalcyborg*
 
 jobs:
   call-codeql:
     strategy:
       matrix:
-          language: [ "python" ]
-          build-mode: [ "autobuild" ]
-#         runner_tags: ['test']
-#         include:
-#           - language: "java-kotlin"
-#             build-graddle: "./gradlew assemble"
-#             build-maven: "./mvnw clean isntall"
-#           - language: "csharp"
-#             build-csharp: "./Myfile.sln"
+        language: [ "python" ]  # Add other languages as needed
+        build-mode: [ "autobuild" ]  # Modify as per your requirements
+
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2  # Make sure to use actions/checkout to fetch the repository
+      uses: actions/checkout@v4
 
     - name: Call codeql-generic workflow
       uses: ./.github/workflows/codeql-generic.yml
       with:
         protected_branches: "main"
-        language: ${{matrix.language}}
-        build-mode: ${{matrix.build-mode}}
-  #     runner_tags: ${{matrix.runner_tags}}
-  #     build-graddle: ${{matrix.build-graddle}}
-  #     build-maven: $ {{matrix.build-maven}}
-  #     build-csharp: $ {{matrix.build-csharp}}
-      
+        language: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
+#        build-graddle: ${{ matrix.build-graddle }}  # Specify these based on your needs
+#        build-maven: ${{ matrix.build-maven }}
+#        build-csharp: ${{ matrix.build-csharp }}
