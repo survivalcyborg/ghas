@@ -4,12 +4,10 @@ on:
   pull_request:
     branches:
       - main
-      - survivalcyborg*
   push:
     branches:
       - main
-      - survivalcyborg*
-
+      
 jobs:
   call-codeql:
     strategy:
@@ -24,7 +22,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Call codeql-generic workflow
-      uses: ./.github/workflows/codeql-generic.yml
+      uses: ./home/runner/work/ghas/ghas/.github/workflows/codeql-generic.yml
       with:
         protected_branches: "main"
         language: ${{ matrix.language }}
