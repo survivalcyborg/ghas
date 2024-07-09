@@ -1,0 +1,29 @@
+name: CodeQL Caller
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  call-codeql:
+    strategy:
+      matrix:
+        language: [ "python" ]  # Add other languages as needed
+        build-mode: [ "autobuild" ]  # Modify as per your requirements
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Call CodeQL Generic Action
+        uses: ./.github/actions/codeql-generic
+        with:
+          protected_branches: "main"
+          language: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          # Add other inputs as needed based on matrix
