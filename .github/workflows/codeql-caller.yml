@@ -25,7 +25,7 @@ jobs:
     with:
       language: ${{matrix.language}}
       build-mode: ${{matrix.build-mode}}
-      protected_branches: ${{matrix.protected_branches}}
+      protected_branches: "main"
 #     runner_tags: ${{matrix.runner_tags}}
 #     build-graddle: ${{matrix.build-graddle}}
 #     build-maven: $ {{matrix.build-maven}}
