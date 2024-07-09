@@ -21,13 +21,20 @@ jobs:
 #             build-maven: "./mvnw clean isntall"
 #           - language: "csharp"
 #             build-csharp: "./Myfile.sln"
-    uses: ./.github/workflows/codeql-generic.yml
-    with:
-      language: ${{matrix.language}}
-      build-mode: ${{matrix.build-mode}}
-      protected_branches: "main"
-#     runner_tags: ${{matrix.runner_tags}}
-#     build-graddle: ${{matrix.build-graddle}}
-#     build-maven: $ {{matrix.build-maven}}
-#     build-csharp: $ {{matrix.build-csharp}}
-    
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2  # Make sure to use actions/checkout to fetch the repository
+
+    - name: Call codeql-generic workflow
+      uses: ./.github/workflows/codeql-generic.yml
+      with:
+        protected_branches: "main"
+        language: ${{matrix.language}}
+        build-mode: ${{matrix.build-mode}}
+  #     runner_tags: ${{matrix.runner_tags}}
+  #     build-graddle: ${{matrix.build-graddle}}
+  #     build-maven: $ {{matrix.build-maven}}
+  #     build-csharp: $ {{matrix.build-csharp}}
+      
