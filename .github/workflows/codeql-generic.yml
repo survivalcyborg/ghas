@@ -1,7 +1,7 @@
 name: codeql-generic
 
 on:
-  workflow_call: # Needed for outside call from another workflow.
+  workflow_call:
     inputs:
       protected_branches:
         required: true
@@ -12,19 +12,15 @@ on:
       build-mode:
         required: true
         type: string
-      build_graddle:
+      build-graddle:
         required: false
         type: string
-      build_maven:
-        required: false
-        type: string        
-      build_csharp:
+      build-maven:
         required: false
         type: string
-  push:
-    branches: [ '${{ inputs.protected_branches }}' ]
-  pull_request:
-    branches: [ '${{ inputs.protected_branches }}' ]
+      build-csharp:
+        required: false
+        type: string
 
 jobs:
   analyze:
@@ -49,15 +45,16 @@ jobs:
         languages: ${{ inputs.language }}
         build-mode: ${{ inputs.build-mode }}
 
-    - if: inputs.build-mode == 'manual' && inputs.language == 'java'
+    - if: ${{ inputs.build-mode == 'manual' && inputs.language == 'java' }}
       run: |
         ${{ inputs.build-graddle }}
         ${{ inputs.build-maven }}
 
-    - if: inputs.build-mode == 'manual' && inputs.language == 'csharp'
+    - if: ${{ inputs.build-mode == 'manual' && inputs.language == 'csharp' }}
       run: |
         ${{ inputs.build-csharp }}
+
     - name: Perform CodeQL Analysis
-      uses: github/coddeql-action/analyze@v3
+      uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{ inputs.language }}"
