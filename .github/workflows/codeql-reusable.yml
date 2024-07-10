@@ -28,7 +28,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: ${{ inputs.language }}
+        language: ${{ inputs.language }}
         build-mode: ${{ inputs.build-mode }}
 
     - name: Build for Java
