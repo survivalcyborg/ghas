@@ -27,7 +27,6 @@ jobs:
       - name: Call CodeQL Generic Action
         uses: ./.github/actions/codeql-generic
         with:
-          protected_branches: "main"
           language: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
           # Add other inputs as needed based on matrix
