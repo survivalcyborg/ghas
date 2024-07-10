@@ -4,29 +4,25 @@ on:
   pull_request:
     branches:
       - main
+      - develop
   push:
     branches:
       - main
+      - develop
 
 jobs:
   call-codeql:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        language: [ "python" ]  # Add other languages as needed
-        build-mode: [ "none" ]  # Modify as per your requirements
-    runs-on: ubuntu-latest
-    permissions:
-        security-events: write
-        actions: read
-        contents: read
-
+        language: [ python , java ]  # Add other languages as needed
+        build-mode: [ none , autobuild]  # Modify as per your requirements
+        #build-java: "./gradlew assemble || ./mvnw clean install"
+        #build-c: "./<Mysolution>.sln"
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Call CodeQL Generic Action
-        uses: ./.github/actions/codeql-generic
-        with:
-          language: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
-          # Add other inputs as needed based on matrix
+    - uses: ./.github/workflows/codeql-reusable
+      with:
+        language: ${{matrix.language}}
+        build-mode: ${{matrix.build-mode}}
+        #build-java: ${{matrix.build-java}}
+        #build-c: ${{matrix.build-c}}
