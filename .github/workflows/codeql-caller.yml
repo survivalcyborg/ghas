@@ -20,7 +20,7 @@ jobs:
         #build-java: "./gradlew assemble || ./mvnw clean install"
         #build-c: "./<Mysolution>.sln"
     steps:
-    - uses: ./.github/workflows/codeql-reusable
+    - uses: ./.github/workflows/codeql-reusable/codeql-reusable.yml
       with:
         language: ${{matrix.language}}
         build-mode: ${{matrix.build-mode}}
