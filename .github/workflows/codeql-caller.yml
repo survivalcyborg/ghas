@@ -4,16 +4,18 @@ on:
   pull_request:
     branches:
       - main
+      - develop
   push:
     branches:
       - main
+      - develop
 
 jobs:
   call-codeql:
     strategy:
       matrix:
-        language: [ "python" ]  # Add other languages as needed
-        build-mode: [ "none" ]  # Modify as per your requirements
+        language: [ "python", "java" ]  # Add other languages as needed
+        build-mode: [ "none", "autobuild" ]  # Modify as per your requirements
     runs-on: ubuntu-latest
     permissions:
         security-events: write
