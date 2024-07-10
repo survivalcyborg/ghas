@@ -14,8 +14,11 @@ jobs:
   call-codeql:
     strategy:
       matrix:
-        language: [ "python", "java" ]  # Add other languages as needed
-        build-mode: [ "none", "autobuild" ]  # Modify as per your requirements
+        language-py: ["python"]  # Add other languages as needed
+        build-py:  ["none"]
+        language-java: ["java"]
+        build-java: ["autobuild"]
+        # Modify as per your requirements
     runs-on: ubuntu-latest
     permissions:
         security-events: write
@@ -29,6 +32,6 @@ jobs:
       - name: Call CodeQL Generic Action
         uses: ./.github/actions/codeql-generic
         with:
-          language: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
+          language: ${{ matrix.language* }}
+          build-mode: ${{ matrix.build-mode* }}
           # Add other inputs as needed based on matrix
