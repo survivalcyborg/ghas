@@ -17,8 +17,12 @@ jobs:
       matrix:
         language: [ python , java ]  # Add other languages as needed
         build-mode: [ none , autobuild]  # Modify as per your requirements
+        #build-java: "./gradlew assemble || ./mvnw clean install"
+        #build-c: "./<Mysolution>.sln"
     steps:
     - uses: ./.github/workflows/codeql-reusable
       with:
-        language: ${{ matrix.language }}
-        build-mode: ${{ matrix.build-mode }}
+        language: ${{matrix.language}}
+        build-mode: ${{matrix.build-mode}}
+        #build-java: ${{matrix.build-java}}
+        #build-c: ${{matrix.build-c}}
