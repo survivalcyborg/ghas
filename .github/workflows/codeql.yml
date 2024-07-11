@@ -1,0 +1,49 @@
+name: CodeQL
+
+on:
+  repository_dispatch:
+    types:
+      - run-codeql
+
+jobs:
+  analyze:
+    name: Analyze CodeQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ${{ split(needs.payload.outputs.languages, ',') }}
+        build-mode: ${{ split(needs.payload.outputs.build_modes, ',') }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - if: matrix.build-mode == 'manual' && matrix.langauge == 'java'
+        shell: bash
+        run: |
+          echo 'Custom build commands for manual build mode...'
+          exit 1
+          
+      - if: matrix.build-mode == 'manual' && matrix.langauge == 'csharp'
+        shell: bash
+        run: |
+          echo 'Custom build commands for manual build mode...'
+          exit 1
+          
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
