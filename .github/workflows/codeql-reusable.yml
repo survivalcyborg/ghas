@@ -43,7 +43,7 @@ jobs:
     - name: Build for C
       if: ${{ inputs.build-mode == 'manual' && inputs.language == 'csharp' }}
       run: |
-        "${{inputs.build-c}}"
+        "${{ inputs.build-c }}"
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
