@@ -9,11 +9,11 @@ jobs:
   analyze:
     name: Analyze CodeQL
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ${{fromJson(needs.payload.client_payload.languages)}}
-        build-mode: ${{fromJson(needs.payload.client_payload.build_modes)}}
+    timeout-minutes: 120
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
 
     steps:
       - name: Checkout Repository
@@ -22,14 +22,8 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
-
-      - if: matrix.build-mode == 'manual'
-        shell: bash
-        run: |
-          echo 'Custom build commands for manual build mode...'
-          exit 1
+          languages: ${{fromJson(needs.payload.client_payload.languages)}}
+          build-mode: ${{fromJson(needs.payload.client_payload.build_modes)}}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
