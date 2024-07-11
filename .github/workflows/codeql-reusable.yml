@@ -3,8 +3,12 @@ name: codeql-reusable
 on:
   workflow_call:
     inputs:
-      language: ${{matrix.language}}
-      build-mode: ${{matrix.build-mode}}
+      language:
+        required: true
+        type: string
+      build-mode:
+        required: true
+        type: string
       build-java:
         required: false
         type: string
