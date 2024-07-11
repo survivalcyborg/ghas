@@ -30,7 +30,7 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Call reusable workflow
-      uses: ./.github/workflows/codeql-reusable.yml
+      uses: survivalcyborg/ghas/.github/workflows/codeql-reusable.yml@main
       with:
         language: ${{ matrix.language }}
         build-mode: ${{ matrix['build-mode'] }}
