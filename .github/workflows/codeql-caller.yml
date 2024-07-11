@@ -15,8 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        language: [ python , java ]  # Add other languages as needed
-        build-mode: [ none , autobuild]  # Modify as per your requirements
+        include:
+        - language: python, java   # Add other languages as needed
+          build-mode: none, autobuild # Modify as per your requirements
         #build-java: "./gradlew assemble || ./mvnw clean install"
         #build-c: "./<Mysolution>.sln"
     steps:
