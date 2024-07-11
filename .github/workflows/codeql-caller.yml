@@ -16,17 +16,22 @@ jobs:
     strategy:
       matrix:
         include:
-        - language: python, java   # Add other languages as needed
-          build-mode: none, autobuild # Modify as per your requirements
-        #build-java: "./gradlew assemble || ./mvnw clean install"
-        #build-c: "./<Mysolution>.sln"
+          - language: python
+            build-mode: none
+          - language: java
+            build-mode: autobuild
+            build-java: "./gradlew assemble || ./mvnw clean install"
+          - language: csharp
+            build-mode: manual
+            build-c: "./<Mysolution>.sln"
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
     
     - uses: ./.github/workflows/codeql-reusable.yml
       with:
-        language: ${{matrix.language}}
-        build-mode: ${{matrix.build-mode}}
-        #build-java: ${{matrix.build-java}}
-        #build-c: ${{matrix.build-c}}
+        language: ${{ matrix.language }}
+        build-mode: ${{ matrix['build-mode'] }}
+        build-java: ${{ matrix['build-java'] || '' }}
+        build-c: ${{ matrix['build-c'] || '' }}
