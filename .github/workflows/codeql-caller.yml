@@ -21,6 +21,9 @@ jobs:
         #build-java: "./gradlew assemble || ./mvnw clean install"
         #build-c: "./<Mysolution>.sln"
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
     - uses: ./.github/workflows/codeql-reusable.yml
       with:
         language: ${{matrix.language}}
