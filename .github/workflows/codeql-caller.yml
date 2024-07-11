@@ -23,7 +23,7 @@ jobs:
 #          - language: csharp
 #            build-mode: manual
 #            build-c: "./<Mysolution>.sln"
-    uses: example/ghas/.github/workflows/codeql-reusable.yml@main
+    uses: survivalcyborg/ghas/.github/workflows/codeql-reusable.yml@main
     with:
       language: ${{ matrix.language }}
       build-mode: ${{ matrix['build-mode'] }}
