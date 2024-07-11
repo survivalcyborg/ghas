@@ -28,8 +28,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    
-    - uses: ./.github/workflows/codeql-reusable.yml
+
+    - name: Call CodeQL-Reusable
+      uses: ./.github/workflows/codeql-reusable.yml
       with:
         language: ${{ matrix.language }}
         build-mode: ${{ matrix['build-mode'] }}
