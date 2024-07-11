@@ -12,7 +12,6 @@ on:
 
 jobs:
   call-codeql:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
@@ -24,15 +23,9 @@ jobs:
 #          - language: csharp
 #            build-mode: manual
 #            build-c: "./<Mysolution>.sln"
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    
-    - name: Call reusable workflow
-      uses: survivalcyborg/ghas/.github/workflows/codeql-reusable.yml@main
-      with:
-        language: ${{ matrix.language }}
-        build-mode: ${{ matrix['build-mode'] }}
-#        build-java: ${{ matrix['build-java'] || '' }}
-#        build-c: ${{ matrix['build-c'] || '' }}
+    uses: example/ghas/.github/workflows/codeql-reusable.yml@main
+    with:
+      language: ${{ matrix.language }}
+      build-mode: ${{ matrix['build-mode'] }}
+#      build-java: ${{ matrix['build-java'] || '' }}
+#      build-c: ${{ matrix['build-c'] || '' }}
