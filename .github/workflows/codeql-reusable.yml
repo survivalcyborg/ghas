@@ -1,4 +1,4 @@
-name: codeql-reusable
+name: CodeQL Reusable
 
 on:
   workflow_call:
