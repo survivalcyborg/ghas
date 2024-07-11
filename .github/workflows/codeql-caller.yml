@@ -1,5 +1,4 @@
 name: CodeQL Caller
-
 on:
   pull_request:
     branches:
