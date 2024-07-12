@@ -48,7 +48,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: ${{inputs.language}}
+        language: ${{inputs.language}}
         build-mode: ${{ inputs.build-mode }}
     - if: inputs.build-mode == 'manual' && inputs.language == 'java-kotlin'
       run: ${{inputs.build-command-java-kotlin}}
