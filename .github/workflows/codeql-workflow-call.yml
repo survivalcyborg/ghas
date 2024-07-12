@@ -9,9 +9,9 @@ on:
       build-mode:
         required: true
         type: string
-      runner-tag:
-        required: false
-        type: string
+#      runner-tag:
+#        required: false
+#        type: string
       build-command-java-kotlin:
         required: false
         type: string
@@ -38,7 +38,7 @@ permissions:
 jobs:
   analyze:
     name: Analyze
-    runs-on: [ 'ubuntu-latest', '${{inputs.runner-tag}}']
+    runs-on: ubuntu-latest
     timeout-minutes: 120
     strategy:
       fail-fast: false
