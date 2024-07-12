@@ -10,7 +10,7 @@ on:
         required: true
         type: string
       runner-tag:
-        required: false
+        required: required
         type: string
       build-command-java-kotlin:
         required: false
