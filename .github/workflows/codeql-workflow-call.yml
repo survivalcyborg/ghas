@@ -65,7 +65,7 @@ jobs:
     - if: inputs.build-mode == 'manual' && inputs.language == 'swift'
       run: ${{inputs.build-command-swift}}
 
-    - name: Perform CodeQL Analysis
+    - name: Perform CodeQL Analysis ${{inputs.language}}
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{inputs.language}}"
