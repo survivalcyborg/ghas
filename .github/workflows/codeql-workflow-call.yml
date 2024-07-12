@@ -9,10 +9,22 @@ on:
       build-mode:
         required: true
         type: string
-      build-java-kotlin:
+      runner-tag:
         required: false
         type: string
-      build-csharp:
+      build-command-java-kotlin:
+        required: false
+        type: string
+      build-command-c-cpp:
+        required: false
+        type: string
+      build-command-csharp:
+        required: false
+        type: string
+      build-command-go:
+        required: false
+        type: string
+      build-command-swift:
         required: false
         type: string
   
@@ -25,8 +37,8 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze (${{ inputs.language }})
-    runs-on: ubuntu-latest
+    name: Analyze (${{inputs.language}})
+    runs-on: ${{inputs.runner-tag}}
     timeout-minutes: 120
     strategy:
       fail-fast: false
@@ -36,13 +48,22 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: ${{ inputs.language }}
+        languages: ${{inputs.language}}
         build-mode: ${{ inputs.build-mode }}
     - if: inputs.build-mode == 'manual' && inputs.language == 'java-kotlin'
-      run: ${{ inputs.build-java-kotlin }}
+      run: ${{inputs.build-command-java-kotlin}}
+
+    - if: inputs.build-mode == 'manual' && inputs.language == 'c-cpp'
+      run: ${{inputs.build-command-c-cpp}}
 
     - if: inputs.build-mode == 'manual' && inputs.language == 'csharp'
-      run: ${{ inputs.build-csharp}}
+      run: ${{ inputs.build-command-csharp}}
+
+    - if: inputs.build-mode == 'manual' && inputs.language == 'go'
+      run: ${{inputs.build-command-go}}
+    
+    - if: inputs.build-mode == 'manual' && inputs.language == 'swift'
+      run: ${{inputs.build-command-swift}}
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
