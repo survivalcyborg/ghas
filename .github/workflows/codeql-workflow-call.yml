@@ -49,7 +49,7 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         language: ${{inputs.language}}
-        build-mode: ${{ inputs.build-mode }}
+        build-mode: ${{inputs.build-mode}}
         
     - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'java-kotlin'
       run: ${{inputs.build-command-java-kotlin}}
