@@ -9,9 +9,9 @@ on:
       build-mode:
         required: true
         type: string
-      runner-tag:
-        required: required
-        type: string
+#      runner-tag:
+#        required: required
+#        type: string
       build-command-java-kotlin:
         required: false
         type: string
@@ -37,8 +37,8 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze ${{inputs.language}}
-    runs-on: ${{inputs.runner-tag}}
+    name: Analyze
+    runs-on: ubuntu-latest
     timeout-minutes: 120
     strategy:
       fail-fast: false
@@ -65,7 +65,7 @@ jobs:
     - if: inputs.build-mode == 'manual' && inputs.language == 'swift'
       run: ${{inputs.build-command-swift}}
 
-    - name: Perform CodeQL Analysis ${{inputs.language}}
+    - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{inputs.language}}"
