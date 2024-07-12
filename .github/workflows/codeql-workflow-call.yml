@@ -37,7 +37,7 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze (${{inputs.language}})
+    name: Analyze ${{inputs.language}}
     runs-on: ${{inputs.runner-tag}}
     timeout-minutes: 120
     strategy:
