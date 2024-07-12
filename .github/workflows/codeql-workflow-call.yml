@@ -3,14 +3,14 @@ name: "codeql-workflow-call"
 on:
   workflow_call:
     inputs:
-      languages:
+      language:
         required: true
         type: string
       build-mode:
         required: true
         type: string
 #      runner-tag:
-#        required: required
+#        required: false
 #        type: string
       build-command-java-kotlin:
         required: false
@@ -42,31 +42,34 @@ jobs:
     timeout-minutes: 120
     strategy:
       fail-fast: false
+      
     steps:
+    
     - name: Checkout repository
       uses: actions/checkout@v4
+      
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        language: ${{inputs.languages}}
+        languages: ${{inputs.language}}
         build-mode: ${{inputs.build-mode}}
         
-    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.languages}} == 'java-kotlin'
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'java-kotlin'
       run: ${{inputs.build-command-java-kotlin}}
 
-    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.languages}} == 'c-cpp'
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'c-cpp'
       run: ${{inputs.build-command-c-cpp}}
 
-    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.languages}} == 'csharp'
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'csharp'
       run: ${{ inputs.build-command-csharp}}
 
-    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.languages}} == 'go'
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'go'
       run: ${{inputs.build-command-go}}
     
-    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.languages}} == 'swift'
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'swift'
       run: ${{inputs.build-command-swift}}
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
-        category: "/languages:${{inputs.languages}}"
+        category: "/language:${{inputs.language}}"
