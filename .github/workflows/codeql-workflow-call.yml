@@ -9,7 +9,14 @@ on:
       build-mode:
         required: true
         type: string
+      build-java-kotlin:
+        required: false
+        type: string
+      build-csharp:
+        required: false
+        type: string
   
+
 permissions:
   security-events: write
   packages: read
@@ -31,15 +38,12 @@ jobs:
       with:
         languages: ${{ inputs.language }}
         build-mode: ${{ inputs.build-mode }}
-    - if: inputs.build-mode == 'manual'
-      shell: bash
-      run: |
-        echo 'If you are using a "manual" build mode for one or more of the' \
-          'languages you are analyzing, replace this with the commands to build' \
-          'your code, for example:'
-        echo '  make bootstrap'
-        echo '  make release'
-        exit 1
+    - if: inputs.build-mode == 'manual' && inputs.language == 'java-kotlin'
+      run: ${{ inputs.build-java-kotlin }}
+
+    - if: inputs.build-mode == 'manual' && inputs.language == 'csharp'
+      run: ${{ inputs.build-csharp}}
+
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
