@@ -50,19 +50,20 @@ jobs:
       with:
         language: ${{inputs.language}}
         build-mode: ${{ inputs.build-mode }}
-    - if: inputs.build-mode == 'manual' && inputs.language == 'java-kotlin'
+        
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'java-kotlin'
       run: ${{inputs.build-command-java-kotlin}}
 
-    - if: inputs.build-mode == 'manual' && inputs.language == 'c-cpp'
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'c-cpp'
       run: ${{inputs.build-command-c-cpp}}
 
-    - if: inputs.build-mode == 'manual' && inputs.language == 'csharp'
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'csharp'
       run: ${{ inputs.build-command-csharp}}
 
-    - if: inputs.build-mode == 'manual' && inputs.language == 'go'
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'go'
       run: ${{inputs.build-command-go}}
     
-    - if: inputs.build-mode == 'manual' && inputs.language == 'swift'
+    - if: ${{inputs.build-mode}} == 'manual' && ${{inputs.language}} == 'swift'
       run: ${{inputs.build-command-swift}}
 
     - name: Perform CodeQL Analysis
